@@ -1,3 +1,7 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma ide diagnostic ignored "UnusedParameter"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -7,18 +11,15 @@
 int counter = 0;
 sem_t semaphore;
 
-void worker(void *a)
-{
-    for (int i = 0; i < 1000000; ++i)
-    {
+void worker(void *a) {
+    for (int i = 0; i < 1000000; ++i) {
         sem_wait(&semaphore);
         counter++;
         sem_post(&semaphore);
     }
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     sem_init(&semaphore, 0, 1);
 
     pthread_t t1;
@@ -26,8 +27,8 @@ int main(int argc, char **argv)
     int thread_id_1 = 1;
     int thread_id_2 = 1;
 
-    pthread_create(&t1, NULL, (void *(*)(void *)) & worker, (void *)&thread_id_1);
-    pthread_create(&t2, NULL, (void *(*)(void *)) & worker, (void *)&thread_id_2);
+    pthread_create(&t1, NULL, (void *(*)(void *)) &worker, (void *) &thread_id_1);
+    pthread_create(&t2, NULL, (void *(*)(void *)) &worker, (void *) &thread_id_2);
 
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
@@ -36,3 +37,5 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+#pragma clang diagnostic pop

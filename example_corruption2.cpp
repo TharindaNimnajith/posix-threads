@@ -1,3 +1,8 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat"
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -5,8 +10,7 @@
 
 long *counter = nullptr;
 
-void inc(long *l)
-{
+void inc(long *l) {
     auto ll = *l;
     auto *c = reinterpret_cast<char *>(&ll);
     c[3] += (c[11] + 1) % 8;
@@ -14,11 +18,9 @@ void inc(long *l)
     *l = ll;
 }
 
-void worker(void *a)
-{
-    int thread_id = *(int *)a;
-    for (int i = 0; i < 100000; ++i)
-    {
+void worker(void *a) {
+    int thread_id = *(int *) a;
+    for (int i = 0; i < 100000; ++i) {
         inc(counter);
         // (*counter)++;
         // if(thread_id == 1)
@@ -28,19 +30,18 @@ void worker(void *a)
     }
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     unsigned char counter_v[16] = {};
-    counter = (long *)(((char *)&counter_v) + 2);
+    counter = (long *) (((char *) &counter_v) + 2);
 
     pthread_t t1;
     pthread_t t2;
     int thread_id_1 = 1;
     int thread_id_2 = 2;
 
-    pthread_create(&t1, NULL, (void *(*)(void *)) & worker, (void *)&thread_id_1);
+    pthread_create(&t1, NULL, (void *(*)(void *)) &worker, (void *) &thread_id_1);
     sleep(3);
-    pthread_create(&t2, NULL, (void *(*)(void *)) & worker, (void *)&thread_id_2);
+    pthread_create(&t2, NULL, (void *(*)(void *)) &worker, (void *) &thread_id_2);
 
     // for (int i = 0; i < 10000000; ++i)
     // {
@@ -56,3 +57,5 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+#pragma clang diagnostic pop

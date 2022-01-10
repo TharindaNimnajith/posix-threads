@@ -7,14 +7,12 @@
 
 int64_t startTT = 0;
 
-void *worker(void *a)
-{
+void *worker(void *a) {
     auto ts = getCurrentTimepoint();
     printf("threadStartDelay ns = %ld\n", ts - startTT);
-    int *cnt = (int *)a;
+    int *cnt = (int *) a;
     int counter = 0;
-    for (int i = 0; i < 10; ++i)
-    {
+    for (int i = 0; i < 10; ++i) {
         printf("This is thread %d\n", *cnt);
         // std::cout << "This is thread " << *cnt << std::endl;
         sleep(1);
@@ -22,11 +20,10 @@ void *worker(void *a)
         // if (i == 5)
         //     pthread_exit(nullptr);
     }
-    return (void *)counter;
+    return (void *) counter;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     pthread_t t1;
     int thread_id = 1;
 
@@ -34,8 +31,7 @@ int main(int argc, char **argv)
 
     startTT = getCurrentTimepoint();
 
-    if ((pthread_create(&t1, NULL, &worker, (void *)&thread_id)) != 0)
-    {
+    if ((pthread_create(&t1, NULL, &worker, (void *) &thread_id)) != 0) {
         printf("Error creating thread\n");
         exit(1);
     }
@@ -49,7 +45,7 @@ int main(int argc, char **argv)
     // exit(0);
     pthread_exit(nullptr);
 
-    pthread_join(t1, (void **)&counterReturnValue);
+    pthread_join(t1, (void **) &counterReturnValue);
 
     printf("Output = %d\n", counterReturnValue);
 
