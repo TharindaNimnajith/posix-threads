@@ -2,6 +2,8 @@
 #pragma clang diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
+#include <iostream>
+
 struct S {
     long l[3];
     int i[3];
@@ -34,10 +36,9 @@ void addLDIF(S &s) {
     s.f[0] = s.f[1] + s.f[2];
 }
 
-// int main()
-// {
-//     std::cout << "Hello, World!" << std::endl;
-//     return 0;
-// }
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
 
 #pragma clang diagnostic pop
